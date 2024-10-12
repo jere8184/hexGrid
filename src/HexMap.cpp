@@ -1,8 +1,9 @@
 #include "HexMap.h"
 
-HexMap::HexMap(uint32_t TileWidth, bool mapMd){
+HexMap::HexMap(uint32_t TileWidth, uint32_t TileHeight, bool mapMd){
     this->mapMode = mapMd;
     this->width = TileWidth;
+    this->height = TileHeight;
     if(mapMd){
         this->size = TileWidth/2.;
     } else {
@@ -14,13 +15,13 @@ HexMap::~HexMap(){
     clearMap();
 }
 
-void HexMap::loadAround(int rc, int qc, uint32_t radius){
-    for(int r = -radius; r <= 0; r++)
+void HexMap::loadAround(int rc, int qc, int radius){
+    for(int r = -radius; r <= 0; r++){
         for(int q = -radius - r; q <= radius; q++){
             if(!isTileLoaded(rc+r, qc+q))
                 spawnTile(rc+r, qc+q);
         }
-        
+    }
     for(int r = 1; r <= radius; r++)
         for(int q = -radius; q <= radius - r; q++){
             if(!isTileLoaded(rc+r, qc+q))
@@ -29,7 +30,7 @@ void HexMap::loadAround(int rc, int qc, uint32_t radius){
 }
 
 
-void HexMap::unloadAround(int rc, int qc, uint32_t radius){
+void HexMap::unloadAround(int rc, int qc, int radius){
     std::list<Tile*>::iterator i = loadedTiles.begin();
     while (i != loadedTiles.end())
     {
@@ -58,33 +59,35 @@ Tile* HexMap::getTileAtRQ(int r, int q){
 }
 
 std::pair<int, int> HexMap::rqTOxy(int r, int q) {
-	return std::pair(size*(3. / 2 * q), size * (sqrt3 / 2 * q + sqrt3 * r ));
+	return std::pair(scale*size*(3. / 2 * q) + offsetX, scale*size * (sqrt3 / 2 * q + sqrt3 * r) + offsetY);
+}
+
+std::pair<int, int> HexMap::getTileDimentions() {
+	return std::pair(scale*width, scale * height);
 }
 
 bool HexMap::isPointWithinTile(int x, int y, Tile* tile) {
     std::pair<int, int> pos = rqTOxy(tile->r, tile->q);
 
-	if (x < pos.first || x > pos.first + width)
+	if (x < pos.first || x > pos.first + width*scale)
 		return false;
 
 	if (y < pos.second)
 		return false;
 
-	if (y < pos.second + width*0.22)
-		if (x < pos.first + width*0.22 && (y - pos.second) + (x - pos.first) < width*0.22 )
+	if (y < pos.second + width*scale*0.22)
+		if (x < pos.first + width*scale*0.22 && (y - pos.second) + (x - pos.first) < width*scale*0.22 )
 			return false;
-		else if (x > pos.first + (width - width*0.22)  && (y - pos.second) + (width + pos.first - x) < width*0.22)
+		else if (x > pos.first + (width*scale - width*scale*0.22)  && (y - pos.second) + (width*scale + pos.first - x) < width*scale*0.22)
 			return false;
 
 	return true;
 }
 
 
+
 Tile* HexMap::spawnTile(int r, int q){
     Tile* tile = new Tile(r, q, determineTextureAt(r,q));
-    tile->r = r;
-    tile->q = q;
-    tile->h = determineHeightAt(r,q);
     loadedTiles.push_back(tile);
     return tile;
 }
@@ -137,8 +140,8 @@ int HexMap::determineHeightAt(int r, int q){
     return 0;
 }
 
-std::string HexMap::determineTextureAt(int r, int q){
+const char* HexMap::determineTextureAt(int r, int q){
     // To make map generation more interesting, add different textures for tiles
     // Adding diffused PerlinNoise can help with creating different biomes for the map with different textures
-    return deafultTexture;
+    return deafultTexture.c_str();
 }

@@ -6,8 +6,8 @@ BUILDDIR = build
 
 EXECUTABLE = app
 SOURCES = $(wildcard $(SOURCEDIR)/*.cpp)
-OBJECTS = $(patsubst $(SOURCEDIR)/%.cpp,$(BUILDDIR)/%.o,$(SOURCES))
-INCLUDES = -I $(SOURCEDIR)/include
+OBJECTS = $(patsubst $(SOURCEDIR)/%.cpp, $(BUILDDIR)/%.o,$(SOURCES))
+INCLUDES = -I examples/include
 
 all: dir $(BUILDDIR)/$(EXECUTABLE)
 

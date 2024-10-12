@@ -13,22 +13,23 @@ public:
     // If the hex texture is pointy at the top, this is false
     bool mapMode = true;
 
+
     std::string deafultTexture;
 
     // Default costructor
     // mapMode is true if hexagons are flat at the top
-    HexMap(uint32_t TileWidth, bool mapMode);
+    HexMap(uint32_t TileWidth, uint32_t TileHeight, bool mapMode);
 
     // Default destructor
     virtual ~HexMap();
 
     // Loads tiles within a radius around RQ in a shape of a larger hexagon
     // If tiles do not alrady exist in loadedTiles within radius, creates new them
-    void loadAround(int r, int q, uint32_t radius);
+    void loadAround(int r, int q, int radius);
 
     // Unloads tiles outside a radius around RQ
     // If tiles in loadedTiles are outside the radius, deletes them
-    void unloadAround(int r, int q, uint32_t radius);
+    void unloadAround(int r, int q, int radius);
 
     // Clears all elements in the map
     void clearMap();
@@ -43,8 +44,21 @@ public:
     // Axial coordinate to screen XY coordinate translation for this map
     std::pair<int, int> rqTOxy(int r, int q);
 
+    // Returns the scaled tile width and height
+    std::pair<int, int> getTileDimentions();
+
     bool isPointWithinTile(int x, int y, Tile* tile);
 
+    //set the size of the tiles (1 = pixel to pixel, 0.5 = half-size and so on...)
+    double scale = 1;
+    
+    // The offset from top left of the screen to map (0,0)
+    // For example if offsetX = screenWidth/2, offsetY = screenHeight/2 then Tile(0,0) is located at the center of the screen
+    int offsetX = 0;
+
+    // The offset from top left of the screen to map (0,0)
+    // For example if offsetX = screenWidth/2, offsetY = screenHeight/2 then Tile(0,0) is located at the center of the screen
+    int offsetY = 0;
 
 private:
 
@@ -55,6 +69,7 @@ private:
     double size = 100;
 
     double width = 100;
+    double height = 100;
 
     // The translation X pivot for every tile in the map
     // Top left corner of the texture by default
@@ -86,6 +101,6 @@ private:
     int determineHeightAt(int r, int q);
 
     // Returns a texture for the tile on the global map
-    std::string determineTextureAt(int r, int q);
+    const char* determineTextureAt(int r, int q);
 
 };

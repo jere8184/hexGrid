@@ -1,4 +1,5 @@
 #include "SDL2Example.h"
+#include <iostream>
 
 SDL2Example::SDL2Example() {
 	this->initVars();
@@ -28,7 +29,10 @@ void SDL2Example::initVars()
 	windowHeight = 720;
 	windowWidth = 1280;
 	tileTargetedByMouse = NULL;
-	hexMap = new HexMap(785, true);
+	hexMap = new HexMap(785, 3140, true);
+	hexMap->offsetX = windowWidth/2;
+	hexMap->offsetY = windowHeight/2;
+	hexMap->scale = 0.1;
 	hexMap->deafultTexture = "flat";
 	//hexMap = new HexMap(680, false);
 }
@@ -89,13 +93,12 @@ void SDL2Example::render()
 	std::list<Tile*>::iterator i;
 	for (i = hexMap->loadedTiles.begin(); i !=  hexMap->loadedTiles.end(); ++i){
 		std::pair<int, int> XY = hexMap->rqTOxy(((Tile*)(*i))->r, ((Tile*)(*i))->q);
+		std::pair<int, int> HW = hexMap->getTileDimentions();
 		SDL_Rect frame;
 		frame.x = XY.first;
 		frame.y = XY.second;
-		SDL_Point size;
-    	SDL_QueryTexture(textureMap[((Tile*)(*i))->texture], NULL, NULL, &size.x, &size.y);
-		frame.w = size.x;
-		frame.h = size.y;
+		frame.w = HW.first;
+		frame.h = HW.second;
 		SDL_SetTextureColorMod(textureMap[((Tile*)(*i))->texture], ((Tile*)(*i))->textureColor[0],((Tile*)(*i))->textureColor[1], ((Tile*)(*i))->textureColor[2]);
 		SDL_RenderCopy(renderer, textureMap[((Tile*)(*i))->texture], NULL, &frame);
 		SDL_SetTextureColorMod(textureMap[((Tile*)(*i))->texture], 255, 255, 255);

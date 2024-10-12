@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <cstdint>
 
 class Tile
 {
@@ -19,7 +20,7 @@ public:
 
 	int h;
 
-	std::string texture;
+	const char* texture;
 
 	uint8_t textureColor[3];
 
@@ -31,7 +32,7 @@ public:
 	// Default costructor
 	// r and q for the axial coordinates
 	// Texture = name of the texture you will later use to render this tile
-	Tile(int r, int q,std::string texture);
+	Tile(int r, int q, const char* texture);
 
 	// Default destructor
 	virtual ~Tile();

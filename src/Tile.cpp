@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Tile::Tile(int R, int Q, std::string animationTag){
+Tile::Tile(int R, int Q, const char* tex){
 	id = currentGlobalTagTicker++;
 
 	isTargetable = true;
@@ -10,6 +10,8 @@ Tile::Tile(int R, int Q, std::string animationTag){
     this->q = Q;
     this->r = R;
     h = 0;
+
+	texture = tex;
 
 	textureColor[0] = 255;	//Red
 	textureColor[1] = 255;	//Green
