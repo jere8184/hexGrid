@@ -1,11 +1,11 @@
 #pragma once
-#include <SDL2/SDL_video.h>
-#include <SDL2/SDL_mouse.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_image.h>
-#include "../src/HexMap.h"
+#include "include/SDL2/SDL_video.h"
+#include "include/SDL2/SDL_mouse.h"
+#include "include/SDL2/SDL.h"
+#include "include/SDL2/SDL_events.h"
+#include "include/SDL2/SDL_image.h"
 #include <map>
+#include "../../src/HexMap.h"
 
 using namespace std;
 
