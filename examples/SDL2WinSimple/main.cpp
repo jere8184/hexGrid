@@ -1,9 +1,9 @@
-#include "SDL2/SDL.h"
+#include "include/SDL2/SDL.h"
 #include <iostream>
 #include "SDL2Example.h"
 
 
-int main() {
+int main(int argv, char** args) {
 
     SDL_Init(SDL_INIT_EVERYTHING);
 	SDL2Example ex;
@@ -19,5 +19,5 @@ int main() {
 
 	cout<<"quitting...\n";
 	SDL_Quit();	
-
+	return 0;
 }

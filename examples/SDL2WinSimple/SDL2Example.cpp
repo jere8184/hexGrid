@@ -14,8 +14,8 @@ void SDL2Example::initWindow()
 	window = SDL_CreateWindow( "SDL2 Hex Map Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_ALLOW_HIGHDPI);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-	textureMap["flat"] = IMG_LoadTexture(renderer, "assets/hexagonFlat.png");
-	textureMap["pointy"] = IMG_LoadTexture(renderer, "assets/hexagonPointy.png");
+	textureMap["flat"] = IMG_LoadTexture(renderer, "../../assets/hexagonFlat.png");
+	textureMap["pointy"] = IMG_LoadTexture(renderer, "../../assets/hexagonPointy.png");
 
 	hexMap->loadAround(0, 0, 5);
 	
